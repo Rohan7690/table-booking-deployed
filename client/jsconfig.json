@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // The root directory of your project
+    "paths": {
+      "@components/*": ["components/*"], // Alias for components folder
+      "@pages/*": ["pages/*"]           // Alias for pages folder
+    }
+  }
+}
