@@ -7,7 +7,7 @@ const bookingRoutes = require("./routes/bookings");  // Import the booking route
 const app = express();
 
 // Middleware setup
-app.use(cors());  
+app.use(cors());
 app.use(express.json());  // Parse incoming JSON requests
 
 // Connect to MongoDB

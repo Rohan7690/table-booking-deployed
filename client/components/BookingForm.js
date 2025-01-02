@@ -1,7 +1,6 @@
-import React, { useState, forwardRef } from "react";
+import { useState } from "react";
 
-// Use forwardRef to pass the ref to the form element
-const BookingForm = forwardRef(({ onSubmit }, ref) => {
+const BookingForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     guests: "",
     name: "",
@@ -15,16 +14,21 @@ const BookingForm = forwardRef(({ onSubmit }, ref) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Frontend validation for contact (phone number)
+    const phoneRegex = /^[0-9]{10}$/; // Allow only 10-digit phone numbers
+    if (!phoneRegex.test(formData.contact)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
     if (typeof onSubmit === "function") {
       onSubmit(formData);
-    } else {
-      console.error("onSubmit is not a function.");
     }
   };
 
   return (
-    <form ref={ref} onSubmit={handleSubmit} className="space-y-6">
-      {/* Number of Guests */}
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Number of Guests
@@ -40,11 +44,8 @@ const BookingForm = forwardRef(({ onSubmit }, ref) => {
         />
       </div>
 
-      {/* Name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Name
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Name</label>
         <input
           type="text"
           name="name"
@@ -55,32 +56,30 @@ const BookingForm = forwardRef(({ onSubmit }, ref) => {
         />
       </div>
 
-      {/* Contact */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Contact
+          Contact (Phone Number)
         </label>
         <input
-          type="text"
+          type="tel" // Use "tel" type for phone numbers
           name="contact"
           value={formData.contact}
           onChange={handleChange}
+          pattern="[0-9]{10}" // Ensure only 10-digit numbers
           required
           className="mt-1 block w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
+        <small className="text-gray-500">Enter a valid 10-digit phone number.</small>
       </div>
 
-      {/* Submit Button */}
-      <div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          Book Now
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        Book Now
+      </button>
     </form>
   );
-});
+};
 
 export default BookingForm;
